@@ -1,5 +1,10 @@
 <?php
-include './includes/templates/header.php'
+// Vinculacion archivo de funciones
+require './includes/funciones.php';
+// Definicion de Variables
+$inicio = true;
+// Llama a la funcion incluirTemplate()
+incluirTemplate("header");
 ?>
 <!-- Main -->
 <main class="contenedor">
