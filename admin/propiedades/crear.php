@@ -1,4 +1,9 @@
 <?php
+//  Vinculacion a la BBDD
+require('../../includes/config/database.php');
+// Llama a la función conectarDB()
+$db = conectarBD();
+
 // Vinculación archivo de funciones
 require('../../includes/funciones.php');
 // Llama a la función incluirTemplate()
