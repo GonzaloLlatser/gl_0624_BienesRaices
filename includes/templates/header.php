@@ -16,14 +16,14 @@
       <div class="barra">
         <!-- Logo principal -->
         <a href="index.php">
-          <img src="./build/img/logo.svg" alt="Logo de Bienes Raices" />
+        <img src="/bienesraices/build/img/logo.svg" alt="Logo de Bienes Raices" />
         </a>
         <!-- Menu responsive  -->
         <div class="mobile-menu">
-          <img src="build/img/barras.svg" alt="icono menu responsive" />
+          <img src="/bienesraices/build/img/barras.svg" alt="icono menu responsive" />
         </div>
         <div class="derecha">
-          <img class="dark-mode-boton" src="build/img/dark-mode.svg" alt="Icono DarkMode" />
+          <img class="dark-mode-boton" src="/bienesraices/build/img/dark-mode.svg" alt="Icono DarkMode" />
           <!-- Barra de Navegacion -->
           <nav class="navegacion">
             <a href="nosotros.php">Nosotros</a>
