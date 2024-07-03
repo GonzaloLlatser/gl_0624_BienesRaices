@@ -4,6 +4,10 @@ require('../../includes/config/database.php');
 // Llama a la función conectarDB()
 $db = conectarBD();
 
+// Consultar a la BBDD (Lista de Vendedores)
+$consulta = "SELECT * FROM vendedores;";
+$resultado = mysqli_query($db, $consulta);
+
 // Vinculación archivo de funciones
 require('../../includes/funciones.php');
 // Llama a la función incluirTemplate()
@@ -12,6 +16,14 @@ incluirTemplate("header");
 // Validacion
 // - Arreglo con mensajes de Error
 $errores = [];
+// - Creo Variables sin valor
+$titulo = '';
+$precio = '';
+$descripcion = '';
+$habitaciones = '';
+$wc = '';
+$estacionamiento = '';
+$vendedorId = '';
 
 
 // Ejecucion del código POST
@@ -21,13 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // var_dump($_POST);
   // echo "<pre>";
   // - Almacena Datos en variables
-  $titulo = $_POST["titulo"];
-  $precio = $_POST["precio"];
-  $descipcion = $_POST["descipcion"];
-  $habitaciones = $_POST["habitaciones"];
-  $wc = $_POST["wc"];
-  $estacionamiento = $_POST["estacionamiento"];
-  $vendedorId = $_POST["vendedor"];
+  $titulo = $_POST['titulo'];
+  $precio = $_POST['precio'];
+  $descripcion = $_POST['descipcion'];
+  $habitaciones = $_POST['habitaciones'];
+  $wc = $_POST['wc'];
+  $estacionamiento = $_POST['estacionamiento'];
+  $vendedorId = $_POST['vendedor'];
+  $creado = date('Y/m/d');
   // - Condicional Validacion de los Datos
   if (!$titulo) {
     $errores[] = "Debes añadir un título";
@@ -37,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $errores[] = "El precio es Obligatorio";
   }
 
-  if (strlen($descipcion) < 50) {
+  if (strlen($descripcion) < 50) {
     $errores[] = "La Descripción es Obligatoria y debe tener al menos 50 caracteres";
   }
 
@@ -66,12 +79,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   if (empty($errores)) {
     // Insertar en la BBDD
     // - Genera Query SQL
-    $query = "INSERT INTO propiedades(titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId) VALUES('$titulo','$precio','$descipcion','$habitaciones','$wc','$estacionamiento','$vendedorId')";
+    $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) 
+    VALUES('$titulo','$precio','$descripcion','$habitaciones','$wc','$estacionamiento', '$creado','$vendedorId')";
+    // - Mostrar la consulta para depuración
+    // echo $query;
     // - Envia la query( Pasa como parametro la conexion $db, y la consulta $query)
     $resultado = mysqli_query($db, $query);
-    // - Mensaje de Confirmacion
+    // - Confirmacion de Formulado enviado
     if ($resultado == true) {
-      echo "Insertado Correctamente";
+      // Insertado Correctamente- Redirecciono al Usuario
+      header('Location: /bienesraices/admin');
     } else {
       echo "No se pudo insertar los datos";
     }
@@ -95,29 +112,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <fieldset>
       <legend>Información General</legend>
       <label for="titulo">Titulo:</label>
-      <input type="text" id="titulo" name="titulo" placeholder="Título Propiedad">
+      <input type="text" id="titulo" name="titulo" placeholder="Título Propiedad" value="<?php echo $titulo; ?>">
       <label for="precio">Precio:</label>
-      <input type="number" id="precio" name="precio" placeholder="Precio Propiedad">
-      <label for="imagen">Imagen::</label>
+      <input type="number" id="precio" name="precio" placeholder="Precio Propiedad" value="<?php echo $precio; ?>">
+      <label for="imagen">Imagen:</label>
       <input type="file" id="imagen" accept="image/jpeg, image/png">
-      <label for="descipcion">Descripción:</label>
-      <textarea id="descripcion" name="descipcion"></textarea>
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descipcion"> <?php echo $descripcion; ?> </textarea>
     </fieldset>
     <fieldset>
       <legend>Información Propiedad</legend>
       <label for="habitaciones">Habitaciones:</label>
-      <input type="number" id="titulo" name="habitaciones" placeholder="Ejemplo: 3" min="1" max="9">
-      <label for="baños">Baños:</label>
-      <input type="number" id="wc" name="wc" placeholder="Ejemplo: 3" min="1" max="9">
+      <input type="number" id="habitaciones" name="habitaciones" placeholder="Ejemplo: 3" min="1" max="9" value="<?php echo $habitaciones; ?>">
+      <label for="wc">Baños:</label>
+      <input type="number" id="wc" name="wc" placeholder="Ejemplo: 3" min="1" max="9" value="<?php echo $wc; ?>">
       <label for="estacionamiento">Garage:</label>
-      <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ejemplo: 1" min="0" max="5">
+      <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ejemplo: 1" min="0" max="5" value="<?php echo $estacionamiento; ?>">
     </fieldset>
     <fieldset>
       <legend>Vendedor</legend>
+
+
       <select name="vendedor">
+
         <option value="">-- Seleccione --</option>
-        <option value="1">Juan</option>
-        <option value="1">Karen</option>
+
+        <!-- Dato de la Consulta a la BBDD -->
+        <?php while ($vendedor = mysqli_fetch_assoc($resultado)) : ?>
+          <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?> value="<?php echo $vendedor['id']; ?>"> <?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?> </option>
+        <?php endwhile; ?>
+
       </select>
     </fieldset>
     <input type="submit" value="Crear Propiedad" class="boton boton-verde">
