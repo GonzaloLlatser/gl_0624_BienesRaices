@@ -1,3 +1,4 @@
+// Alertas en el Formulario de Propiedades
 .alerta {
   padding: 0.5rem;
   text-align: center;
@@ -13,5 +14,25 @@
 
   &.exito {
     background-color: $verde;
+  }
+}
+
+// Tabla con Listado de Propiedades
+table.propiedades {
+  margin: 4rem 0 0 2rem;
+  width: 90%;
+  border-spacing: 0.1em;
+
+  thead {
+    background-color: $verde;
+
+    th {
+      color: $blanco;
+      padding: 2rem;
+    }
+  }
+
+  .imagen-tabla {
+    width: 10rem;
   }
 }
