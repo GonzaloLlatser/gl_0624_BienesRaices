@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // - Confirmacion de Formulado enviado
     if ($resultado == true) {
       // Insertado Correctamente- Redirecciono al Usuario
-      header('Location: /bienesraices/admin');
+      header('Location: /bienesraices/admin?resultado=1');
     } else {
       echo "No se pudo insertar los datos";
     }
