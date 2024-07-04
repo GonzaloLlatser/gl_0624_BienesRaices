@@ -29,18 +29,26 @@ $vendedorId = '';
 // Ejecucion del código POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // - Datos visuales p/ Comprobacion de Obtencion
+  // SuperGlobal de POST 
   // echo "<pre>";
   // var_dump($_POST);
   // echo "<pre>";
+  // SuperGlobal FILES para archivos
+  echo "<pre>";
+  var_dump($_FILES);
+  echo "<pre>";
   // - Almacena Datos en variables
-  $titulo = $_POST['titulo'];
-  $precio = $_POST['precio'];
-  $descripcion = $_POST['descipcion'];
-  $habitaciones = $_POST['habitaciones'];
-  $wc = $_POST['wc'];
-  $estacionamiento = $_POST['estacionamiento'];
-  $vendedorId = $_POST['vendedor'];
+  // - Incluyo mysqli_real_escape_string(Elimina caracteres especiales en una cadena de texto antes de enviarla a una consulta SQL)
+  $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
+  $precio = mysqli_real_escape_string($db, $_POST['precio']);
+  $descripcion = mysqli_real_escape_string($db, $_POST['descipcion']);
+  $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones']);
+  $wc = mysqli_real_escape_string($db,  $_POST['wc']);
+  $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento']);
+  $vendedorId = mysqli_real_escape_string($db, $_POST['vendedor']);
   $creado = date('Y/m/d');
+  // Asignacion de Files a una variable
+  $imagen = $_FILES['imagen'];
   // - Condicional Validacion de los Datos
   if (!$titulo) {
     $errores[] = "Debes añadir un título";
@@ -69,6 +77,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   if (!$vendedorId) {
     $errores[] = "Selecciona un vendedor";
   }
+  // Imagen - Validacion de existencia
+  if (!$imagen['name'] || $imagen['error']) {
+    $errores[] = "La imagen es Obligatoria";
+  }
+  // Imagen - validacion del tamaño (100 Kb max)
+  // Convesion de Bytes a Kbytes
+  $medida = 1000 * 100;
+  if ($imagen['size'] > $medida) {
+    $errores[] = "La imagen supera el tamaño máximo";
+  }
+
 
   // Codigo para Visualizar errores
   // echo "<pre>";
@@ -108,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
   <?php endforeach ?>
   <!-- Formulario -->
-  <form action="../../admin/propiedades/crear.php" class="formulario" method="POST">
+  <form action="../../admin/propiedades/crear.php" class="formulario" method="POST" enctype="multipart/form-data">
     <fieldset>
       <legend>Información General</legend>
       <label for="titulo">Titulo:</label>
@@ -116,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <label for="precio">Precio:</label>
       <input type="number" id="precio" name="precio" placeholder="Precio Propiedad" value="<?php echo $precio; ?>">
       <label for="imagen">Imagen:</label>
-      <input type="file" id="imagen" accept="image/jpeg, image/png">
+      <input type="file" id="imagen" name="imagen" accept="image/jpeg, image/png">
       <label for="descripcion">Descripción:</label>
       <textarea id="descripcion" name="descipcion"> <?php echo $descripcion; ?> </textarea>
     </fieldset>
