@@ -1,5 +1,16 @@
 <!-- Vista del Header -->
 <?php
+// Consulta de las Propiedades en la BBDD
+// - Vinculacion a la BBDD
+require('../includes/config/database.php');
+// - Llama a la función conectarDB()
+$db = conectarBD();
+// Escribir el Query
+$query = "SELECT * FROM propiedades";
+// Consultar a la BBDD
+$resultadoConsulta = mysqli_query($db, $query);
+// Mostrar los resultados -> en el codigo del table
+
 // Mensaje de Confirmacion de Registro de la Propiedad
 $resultado = $_GET['resultado'] ?? null;
 // Vinculación archivo de funciones
@@ -30,34 +41,25 @@ incluirTemplate("header");
       <th>Acciones</th>
     </tr>
   </thead>
-  <tr>
-    <td>1</td>
-    <td>Casa en la PLaya</td>
-    <td> <img src="../img/blog3.jpg" class="imagen-tabla" </td>
-    <td>$120580</td>
-    <td>
-      <a href="#" class="boton-rojo-block">Eliminar</a>
-      <a href="#" class="boton-amarillo-block">Actualizar</a>
-    </td>
-  </tr>
   <tbody>
-
+    <!-- Retorno de la consulta a la BBDD -->
+    <?php while ($propiedad = mysqli_fetch_assoc($resultadoConsulta)) : ?>
+      <!-- Genera en cada iteracion el siguiente codigo HTML -->
+      <tr>
+        <td><?php echo $propiedad['id']; ?></td>
+        <td><?php echo $propiedad['titulo']; ?></td>
+        <td><img src="../imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla" </td>
+        <td>€ <?php echo $propiedad['precio']; ?></td>
+        <td>
+          <a href="#" class="boton-rojo-block">Eliminar</a>
+          <a href="#" class="boton-amarillo-block">Actualizar</a>
+        </td>
+      </tr>
+    <?php endwhile; ?>
   </tbody>
 </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- Cierra conexion a la BBDD -->
+<?php mysqli_close($db); ?>
 
 <!-- Vista del Footer -->
 <?php
