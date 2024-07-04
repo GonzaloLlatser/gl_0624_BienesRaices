@@ -25,7 +25,6 @@ $wc = '';
 $estacionamiento = '';
 $vendedorId = '';
 
-
 // Ejecucion del código POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // - Datos visuales p/ Comprobacion de Obtencion
@@ -81,13 +80,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   if (!$imagen['name'] || $imagen['error']) {
     $errores[] = "La imagen es Obligatoria";
   }
-  // Imagen - validacion del tamaño (100 Kb max)
+  // Imagen - validacion del tamaño (1 MB max)
   // Convesion de Bytes a Kbytes
-  $medida = 1000 * 100;
+  $medida = 1000 * 1000;
   if ($imagen['size'] > $medida) {
     $errores[] = "La imagen supera el tamaño máximo";
   }
-
 
   // Codigo para Visualizar errores
   // echo "<pre>";
@@ -96,10 +94,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   // Verifica si no hay errores (El array $errores esta vacio)
   if (empty($errores)) {
+    // SUBIDA DE ARCHIVOS
+    // - Crea ruta de carpeta
+    $carpetaImagenes = '../../imagenes/';
+    // - Condicional, busca la carpeta
+    if (!is_dir($carpetaImagenes)) {
+      // - Si no existe: Crea la Carpeta 
+      mkdir($carpetaImagenes);
+    }
+    // - Generar nombre unico para cada imagen
+    $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+    // - Subir imagen a la BBDD
+    move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
     // Insertar en la BBDD
     // - Genera Query SQL
-    $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) 
-    VALUES('$titulo','$precio','$descripcion','$habitaciones','$wc','$estacionamiento', '$creado','$vendedorId')";
+    $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) 
+    VALUES('$titulo','$precio','$nombreImagen','$descripcion','$habitaciones','$wc','$estacionamiento', '$creado','$vendedorId')";
     // - Mostrar la consulta para depuración
     // echo $query;
     // - Envia la query( Pasa como parametro la conexion $db, y la consulta $query)
@@ -151,16 +161,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <fieldset>
       <legend>Vendedor</legend>
 
-
       <select name="vendedor">
-
         <option value="">-- Seleccione --</option>
-
         <!-- Dato de la Consulta a la BBDD -->
         <?php while ($vendedor = mysqli_fetch_assoc($resultado)) : ?>
           <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?> value="<?php echo $vendedor['id']; ?>"> <?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?> </option>
         <?php endwhile; ?>
-
       </select>
     </fieldset>
     <input type="submit" value="Crear Propiedad" class="boton boton-verde">
