@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // - Incluyo mysqli_real_escape_string(Elimina caracteres especiales en una cadena de texto antes de enviarla a una consulta SQL)
   $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
   $precio = mysqli_real_escape_string($db, $_POST['precio']);
-  $descripcion = mysqli_real_escape_string($db, $_POST['descipcion']);
+  $descripcion = mysqli_real_escape_string($db, $_POST['descripcion']);
   $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones']);
   $wc = mysqli_real_escape_string($db,  $_POST['wc']);
   $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento']);
@@ -147,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <label for="imagen">Imagen:</label>
       <input type="file" id="imagen" name="imagen" accept="image/jpeg, image/png">
       <label for="descripcion">Descripción:</label>
-      <textarea id="descripcion" name="descipcion"> <?php echo $descripcion; ?> </textarea>
+      <textarea id="descripcion" name="descripcion"> <?php echo $descripcion; ?> </textarea>
     </fieldset>
     <fieldset>
       <legend>Información Propiedad</legend>
