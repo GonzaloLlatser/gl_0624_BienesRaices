@@ -107,21 +107,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   // Verifica si no hay errores (El array $errores esta vacio)
   if (empty($errores)) {
+    // Crea ruta de carpeta
+    $carpetaImagenes = '../../imagenes/';
+
+    // - Condicional, busca la carpeta
+    if (!is_dir($carpetaImagenes)) {
+      // - Si no existe: Crea la Carpeta 
+      mkdir($carpetaImagenes);
+    }
+
+    $nombreImagen = '';
+
+    // Verificacion de Actualizar - nueva Imagen 
+    if ($imagen['name']) {
+      // En caso de existir imagen nueva
+      // - Eliminar Imagen previa => Utiliza funcion PHP unlink()
+      unlink($carpetaImagenes . $propiedad['imagen']);
+      // - Generar nombre unico para cada imagen
+      $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+      // - Subir imagen a la BBDD
+      move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+    }
+    // En caso de no subir ninguna imagen
+    else {
+      $nombreImagen = $propiedad['imagen'];
+    }
+
     // SUBIDA DE ARCHIVOS
-    // // - Crea ruta de carpeta
-    // $carpetaImagenes = '../../imagenes/';
-    // // - Condicional, busca la carpeta
-    // if (!is_dir($carpetaImagenes)) {
-    //   // - Si no existe: Crea la Carpeta 
-    //   mkdir($carpetaImagenes);
-    // }
-    // // - Generar nombre unico para cada imagen
-    // $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
-    // // - Subir imagen a la BBDD
-    // move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
     // Insertar en la BBDD
     // - Genera Query SQL
-    $query = "UPDATE propiedades SET titulo = '$titulo', precio = '$precio', descripcion = '$descripcion', habitaciones= $habitaciones, wc= $wc,estacionamiento= $estacionamiento, vendedorId= $vendedorId WHERE id= $id";
+    $query = "UPDATE propiedades SET titulo = '$titulo', precio = '$precio', imagen = '$nombreImagen', descripcion = '$descripcion', habitaciones = $habitaciones, wc = $wc,estacionamiento = $estacionamiento, vendedorId = $vendedorId WHERE id = $id";
     // - Mostrar la consulta para depuración
     echo $query;
 
