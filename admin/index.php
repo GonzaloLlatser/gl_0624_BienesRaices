@@ -1,5 +1,13 @@
 <!-- Vista del Header -->
 <?php
+// Vinculación archivo de funciones
+require('../../bienesraices/includes/funciones.php');
+$auth = estaAutenticado();
+
+if (!$auth) {
+  header('Location: ./index.php');
+}
+
 // Consulta de las Propiedades en la BBDD
 // - Vinculacion a la BBDD
 require('../includes/config/database.php');
@@ -44,8 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Mensaje de Confirmacion de Registro de la Propiedad
 $resultado = $_GET['resultado'] ?? null;
-// Vinculación archivo de funciones
-require('../includes/funciones.php');
+
 // Llama a la función incluirTemplate()
 incluirTemplate("header");
 ?>

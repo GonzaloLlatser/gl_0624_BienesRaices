@@ -4,7 +4,7 @@ require 'includes/config/database.php';
 // Conectar a la BBDD
 $db = conectarBD();
 // Crear variables con un Email y Pasw 
-$email = ' correo@correo.com';
+$email = 'correo@correo.com';
 $password = '123456';
 // Hashear Password
 $passwordHash = password_hash($password, PASSWORD_BCRYPT);

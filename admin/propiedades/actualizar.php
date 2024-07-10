@@ -1,4 +1,12 @@
 <?php
+// Vinculación archivo de funciones
+require('../../includes/funciones.php');
+$auth = estaAutenticado();
+
+if (!$auth) {
+  header('Location: /');
+}
+
 // Definicion de Variables
 $id = $_GET['id'];
 // Filtro de seguridad, solo permite INT
@@ -23,8 +31,6 @@ $propiedad = mysqli_fetch_assoc($resultado);
 $consulta = "SELECT * FROM vendedores;";
 $resultado = mysqli_query($db, $consulta);
 
-// Vinculación archivo de funciones
-require('../../includes/funciones.php');
 // Llama a la función incluirTemplate()
 incluirTemplate("header");
 
