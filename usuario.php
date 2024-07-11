@@ -1,6 +1,6 @@
 <?php
 // Importar conexion
-require 'includes/config/database.php';
+require 'includes/app.php';
 // Conectar a la BBDD
 $db = conectarBD();
 // Crear variables con un Email y Pasw 

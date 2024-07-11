@@ -1,6 +1,12 @@
 <?php
 
-// Definicion de Constantes 
-// __DIR__ => Obtiene la ruta completa
-define('TEMPLATES_URL', __DIR__ . '/templates');
-define('FUNCIONES', 'funciones.php');
+// Importacion de archivos
+require 'funciones.php';
+require 'config/database.php';
+require __DIR__ . '/../vendor/autoload.php';
+
+use App\Propiedad;
+
+$propiedad = new Propiedad;
+
+var_dump($propiedad);

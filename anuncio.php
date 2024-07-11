@@ -1,6 +1,6 @@
 <?php
 // Vinculacion archivo de funciones
-require './includes/funciones.php';
+require './includes/app.php';
 // Definicion de Variables
 $inicio = true;
 // Llama a la funcion incluirTemplate()
@@ -13,8 +13,6 @@ $id = filter_var($id, FILTER_VALIDATE_INT);
 if (!$id) {
   header('Location: /');
 }
-// Importar conexion BBDD
-require 'includes/config/database.php';
 // - Llamo a la funcion conectarBD()
 $db = conectarBD();
 // Consultar la BBDD

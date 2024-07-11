@@ -1,7 +1,7 @@
 <!-- PHP -->
 <?php
 // Importar conexion BBDD
-require 'includes/config/database.php';
+
 // - Llamo a la funcion conectarBD()
 $db = conectarBD();
 // Consultar la BBDD

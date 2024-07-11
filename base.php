@@ -1,6 +1,6 @@
 <?php
 // Vinculacion archivo de funciones
-require './includes/funciones.php';
+require './includes/app.php';
 // Definicion de Variables
 $inicio = true;
 // Llama a la funcion incluirTemplate()

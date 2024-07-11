@@ -1,0 +1,17 @@
+{
+  "name": "gonll/bienesraices",
+  "description": "Incluir POO",
+  "type": "project",
+  "authors": [
+    {
+      "name": "GonzaloLlatser",
+      "email": "gonllat@gmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "App\\": "./classes"
+    }
+  }
+}

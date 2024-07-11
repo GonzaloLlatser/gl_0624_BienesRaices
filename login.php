@@ -1,6 +1,7 @@
 <?php
-//  Vinculacion a la BBDD
-require('includes/config/database.php');
+
+require 'includes/app.php';
+
 // Llama a la función conectarDB()
 $db = conectarBD();
 
@@ -52,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Importa Header
-require 'includes/funciones.php';
 incluirTemplate('header');
 ?>
 
