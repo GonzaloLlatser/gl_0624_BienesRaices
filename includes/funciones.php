@@ -5,6 +5,7 @@
 // __DIR__ => Obtiene la ruta completa
 define('TEMPLATES_URL', __DIR__ . '/templates');
 define('FUNCIONES', 'funciones.php');
+define('CARPETA_IMAGENES', __DIR__ . '/../imagenes/');
 
 // Definicion de Funciones
 function incluirTemplate(string $nombre, bool $inicio = false)
@@ -13,12 +14,26 @@ function incluirTemplate(string $nombre, bool $inicio = false)
 }
 
 // Autenticacion de Usuarios
-function estaAutenticado(): bool
+function estaAutenticado()
 {
   session_start();
-  $auth = $_SESSION['login'];
-  if ($auth) {
-    return true;
+  if (!$_SESSION['login']) {
+    header('Location: /bienesraices/index.php');
   }
-  return false;
+}
+
+// Enseña por pantalla
+function debuguear($variable)
+{
+  echo "<pre>";
+  var_dump($variable);
+  echo "</pre>";
+  exit();
+}
+
+// Escapa / Sanitizar el HTML
+function s($html): string
+{
+  $s = htmlspecialchars($html);
+  return $s;
 }

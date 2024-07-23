@@ -3,7 +3,7 @@
 // Funcion Conectar a la BBDD
 function conectarBD(): mysqli
 {
-  $db = mysqli_connect('localhost', 'root', '', 'bienesraices_crud');
+  $db =  new mysqli('localhost', 'root', '', 'bienesraices_crud');
   // Confirmacion de conexion
   if (!$db) {
     echo "Error en la Conexión";
