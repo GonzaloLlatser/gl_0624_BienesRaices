@@ -7,23 +7,12 @@ class ActiveRecord
   // Atributos estaticos
   // - BBDD
   protected static $db;
-  protected static $columnasDB = ['id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'creado', 'vendedorId'];
+  protected static $columnasDB = [];
   protected static $tabla = "";
 
   // Errores 
   protected static $errores = [];
 
-  // Atributos de la Clase
-  public $id;
-  public $titulo;
-  public $precio;
-  public $imagen;
-  public $descripcion;
-  public $habitaciones;
-  public $wc;
-  public $estacionamiento;
-  public $creado;
-  public $vendedorId;
 
   // - Metodo Conectar la BBDD
   public static function setDB($database)
@@ -31,20 +20,7 @@ class ActiveRecord
     self::$db = $database;
   }
 
-  // Constructor
-  public function __construct($args = [])
-  {
-    $this->id = $args['id'] ?? null;
-    $this->titulo = $args['titulo'] ?? '';
-    $this->precio = $args['precio'] ?? '';
-    $this->imagen = $args['imagen'] ?? '';
-    $this->descripcion = $args['descripcion'] ?? '';
-    $this->habitaciones = $args['habitaciones'] ?? '';
-    $this->wc = $args['wc'] ?? '';
-    $this->estacionamiento = $args['estacionamiento'] ?? '';
-    $this->creado = date('Y/m/d');
-    $this->vendedorId = $args['vendedorId'] ?? 1;
-  }
+
 
   // Metodos 
   public function guardar()
@@ -224,7 +200,7 @@ class ActiveRecord
   // Busca un registro por su ID
   public static function find($id)
   {
-    $query = "SELECT * FROM ". static::$tabla . " WHERE id={$id}";
+    $query = "SELECT * FROM " . static::$tabla . " WHERE id={$id}";
     $resultado = self::consultarSQL($query);
     return array_shift($resultado);
   }
@@ -247,7 +223,7 @@ class ActiveRecord
 
   protected static function crearObjeto($registro)
   {
-    $objeto = new self;
+    $objeto = new static;
     foreach ($registro as $key => $value) {
       if (property_exists($objeto, $key)) {
         $objeto->$key = $value;

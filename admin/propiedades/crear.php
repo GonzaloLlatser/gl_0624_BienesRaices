@@ -4,19 +4,19 @@
 require('../../includes/app.php');
 // Importar Clase
 use App\Propiedad;
+use App\Vendedor;
 use Intervention\Image\ImageManagerStatic as Image;
 
 // Ahora puedes usar Image::make(), etc.
 estaAutenticado();
 
-// Llama a la función conectarDB()
-$db = conectarBD();
-
+// Crea Instancia 
 $propiedad = new Propiedad();
 
-// Consultar a la BBDD (Lista de Vendedores)
-$consulta = "SELECT * FROM vendedores;";
-$resultado = mysqli_query($db, $consulta);
+// Consulta para Obtener los vendedores
+$vendedores= Vendedor::all();
+
+
 
 // Llama a la función incluirTemplate()
 incluirTemplate("header");
