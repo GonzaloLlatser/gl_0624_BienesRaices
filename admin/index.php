@@ -5,9 +5,12 @@ require('../../bienesraices/includes/app.php');
 estaAutenticado();
 
 use App\Propiedad;
+use App\Vendedor;
 
 // Metodo para Obtener las Propiedades
 $propiedades = Propiedad::all();
+$vendedores = Vendedor::all();
+
 
 // ELIMINAR PROPIEDAD
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -19,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($id) {
     $propiedad = Propiedad::find($id);
     $propiedad->eliminar();
-    }
   }
+}
 
 // Mensaje de Confirmacion de Registro de la Propiedad
 $resultado = $_GET['resultado'] ?? null;
