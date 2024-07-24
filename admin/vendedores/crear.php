@@ -15,6 +15,15 @@ $errores = Vendedor::getErrores();
 
 // Ejecucion del código POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  // Crea nueva instancia de Vendedor
+  $vendedor = new Vendedor($_POST['vendedor']);
+  // Validar Campos vacios
+  $errores = $vendedor->validar();
+  // Guardar
+  if (empty($errores)) {
+
+    $vendedor->guardar();
+  }
 }
 
 incluirTemplate('header');

@@ -7,14 +7,37 @@ use App\Vendedor;
 
 estaAutenticado();
 
-// Crea nueva instancia
-$vendedor = new Vendedor();
+// Validar el ID del vendedor
+$id = $_GET['id'];
+$id = filter_var($id, FILTER_VALIDATE_INT);
+
+
+
+//  Condicional, si no existe redirecciona a la Vista Inicial
+if (!$id) {
+  header('Location:/admin');
+}
+
+// Obtener el arreglo del Vendedor de la BBDD
+$vendedor = Vendedor::find($id);
+
+
 
 // - Arreglo con mensajes de Error
 $errores = Vendedor::getErrores();
 
 // Ejecucion del código POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  // Asignar los valores
+  $args = $_POST['vendedor'];
+  // Sincronizar los valores
+  $vendedor->sincronizar($args);
+  // Validacion
+  $errores = $vendedor->validar();
+  // Condicional
+  if (empty($errores)) {
+    $vendedor->guardar();
+  }
 }
 
 incluirTemplate('header');

@@ -4,6 +4,7 @@
 require('../../bienesraices/includes/app.php');
 estaAutenticado();
 
+// Importar clases
 use App\Propiedad;
 use App\Vendedor;
 
@@ -42,13 +43,9 @@ incluirTemplate("header");
 <!-- Cuerpo de la Página -->
 <main class="contenedor seccion">
   <h1>Administrador de Bienes Raices</h1>
-  <?php if ($resultado == 1) : ?>
-    <p class="alerta exito">Anuncio Creado Correctamente</p>
-  <?php elseif ($resultado == 2) : ?>
-    <p class="alerta exito">Anuncio Actualiazado Correctamente</p>
-  <?php elseif ($resultado == 3) : ?>
-    <p class="alerta exito">Anuncio Eliminado Correctamente</p>
-  <?php endif ?>
+  <?php
+  $mensaje = mostrarNotificacion(intval($resultado));
+  if ($mensaje) { ?> <p class="alerta exito"><?php echo s($mensaje) ?></p> <?php } ?>
 
   <!-- Enlaces -->
   <a href="/bienesraices/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
@@ -114,7 +111,7 @@ incluirTemplate("header");
             <input type="hidden" name="tipo" value="vendedor">
             <input type="submit" class="boton-rojo-block" value="eliminar">
           </form>
-          <a href="../admin/vendedores/actualizar.php?id=<?php echo $propiedad->id; ?>" class="boton-amarillo-block">Actualizar</a>
+          <a href="../admin/vendedores/actualizar.php?id=<?php echo $vendedor->id; ?>" class="boton-amarillo-block">Actualizar</a>
         </td>
       </tr>
     <?php endforeach; ?>
