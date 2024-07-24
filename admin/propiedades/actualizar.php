@@ -2,6 +2,7 @@
 // Vinculación archivo de funciones
 
 use App\Propiedad;
+use App\Vendedor;
 use Intervention\Image\ImageManagerStatic as Image;
 
 
@@ -20,11 +21,8 @@ if (!$id) {
 // Obtener los datos de una Propiedad
 $propiedad = Propiedad::find($id);
 
-
-
 // Consultar a la BBDD (Lista de Vendedores)
-$consulta = "SELECT * FROM vendedores;";
-$resultado = mysqli_query($db, $consulta);
+$vendedores  = Vendedor::all();
 
 // Llama a la función incluirTemplate()
 incluirTemplate("header");
@@ -56,8 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   // Verifica si no hay errores (El array $errores esta vacio)
   if (empty($errores)) {
-    // Almacenar la Imagen
-    $image->save(CARPETA_IMAGENES . $nombreImagen);
+    if ($_FILES['propiedad']['tmp_name']['imagen']) {
+      // Almacenar la Imagen
+      $image->save(CARPETA_IMAGENES . $nombreImagen);
+    }
     $propiedad->guardar();
   }
 }
