@@ -10,6 +10,20 @@ class ActiveRecord
   protected static $columnasDB = [];
   protected static $tabla = "";
 
+  public $id;
+  public $titulo;
+  public $imagen;
+  public $public;
+  public $descripcion;
+  public $wc;
+  public $precio;
+  public $habitaciones;
+  public $estacionamiento;
+  public $nombre;
+  public $apellido;
+  public $telefono;
+
+
   // Errores 
   protected static $errores = [];
 
@@ -159,6 +173,14 @@ class ActiveRecord
   public static function all()
   {
     $query = "SELECT * FROM " . static::$tabla;
+    $resultado = self::consultarSQL($query);
+    return $resultado;
+  }
+
+  // Obtiene un numero determinado de registros
+  public static function get($cantidad)
+  {
+    $query = "SELECT * FROM " . static::$tabla . " LIMIT " . $cantidad;
     $resultado = self::consultarSQL($query);
     return $resultado;
   }

@@ -16,13 +16,14 @@ incluirTemplate("header");
     $limite = 10;
     include './includes/templates/anuncios.php';
     ?>
-
-
-    <div class="alinear-derecha">
-      <a href="anuncios.html" class="boton-verde">Ver todas</a>
-    </div>
-  </section>
 </main>
+
+
+<div class="alinear-derecha">
+  <a href="anuncios.html" class="boton-verde">Ver todas</a>
+</div>
+</section>
+
 
 <!-- Footer -->
 <?php

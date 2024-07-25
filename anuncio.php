@@ -1,6 +1,9 @@
 <?php
+
 // Vinculacion archivo de funciones
 require './includes/app.php';
+// Importa Clases
+use App\Propiedad;
 // Definicion de Variables
 $inicio = true;
 // Llama a la funcion incluirTemplate()
@@ -13,45 +16,37 @@ $id = filter_var($id, FILTER_VALIDATE_INT);
 if (!$id) {
   header('Location: /');
 }
-// - Llamo a la funcion conectarBD()
-$db = conectarBD();
-// Consultar la BBDD
-$query = "SELECT * FROM propiedades WHERE id= $id";
-// Obtener resultados
-$resultado = mysqli_query($db, $query);
-// Recorro el Resultado
-$propiedad = mysqli_fetch_assoc($resultado);
+$propiedad = Propiedad::find($id);
+
 ?>
 
 <!-- Main -->
 <!-- Estructura html del anuncio -->
 <main class="contenedor seccion contenido-centrado">
-  <h1><?php echo $propiedad['titulo']; ?></h1>
+  <h1><?php echo $propiedad->titulo; ?></h1>
   <!-- Propiedad- Imagen -->
-  <img loading="lazy" src="imagenes/<?php echo $propiedad['imagen']; ?>" alt="anuncio-imagen">
+  <img loading="lazy" src="imagenes/<?php echo $propiedad->imagen; ?>" alt="anuncio-imagen">
   <!-- Propiedad- Contenido -->
   <div class="resumen-propiedad">
-    <p class="precio">€ <?php echo $propiedad['precio']; ?></p>
+    <p class="precio">€ <?php echo $propiedad->precio; ?></p>
     <ul class="iconos-caracteristicas">
       <li>
         <img class="icono" loading="lazy" src="build/img/icono_wc.svg" alt="icono wc" />
-        <p><?php echo $propiedad['wc']; ?></p>
+        <p><?php echo $propiedad->wc; ?></p>
       </li>
       <li>
         <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento" />
-        <p><?php echo $propiedad['estacionamiento']; ?></p>
+        <p><?php echo $propiedad->estacionamiento; ?></p>
       </li>
       <li>
         <img class="icono" loading="lazy" src="build/img/icono_dormitorio.svg" alt="icono habitaciones" />
-        <p><?php echo $propiedad['habitaciones']; ?></p>
+        <p><?php echo $propiedad->habitaciones; ?></p>
       </li>
     </ul>
-    <p>
-      <?php echo $propiedad['descripcion']; ?>
-    </p>
+    
+      <?php echo $propiedad->descripcion; ?>
+    
   </div>
-  <!-- Cierro conexion BBDD -->
-  <?php mysqli_close($db); ?>
 </main>
 
 <!-- Footer -->

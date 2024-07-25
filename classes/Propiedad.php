@@ -34,7 +34,6 @@ class Propiedad extends ActiveRecord
     $this->vendedorId = $args['vendedorId'] ?? "";
   }
 
-  
   public function validar()
   {
     // - Condicional Validacion de los Datos
